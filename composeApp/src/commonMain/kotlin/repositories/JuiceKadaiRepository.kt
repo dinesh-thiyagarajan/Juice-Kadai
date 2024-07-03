@@ -14,4 +14,8 @@ class JuiceKadaiRepository() {
         )
     }
 
+    fun submitDrinksOrder(drinks: List<Drink>) {
+
+    }
+
 }

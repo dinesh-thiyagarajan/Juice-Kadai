@@ -16,8 +16,15 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.FabPosition
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -47,18 +54,38 @@ fun GridListWithRoundedCardViews(
     numColumns: Int = 2,
     juiceKadaiViewModel: JuiceKadaiViewModel
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(numColumns),
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(8.dp)
-    ) {
-        items(drinks.size) { index ->
-            RoundedCardView(
-                drinkId = drinks[index].drinkId,
-                title = drinks[index].drinkName,
-                juiceKadaiViewModel = juiceKadaiViewModel
-            )
-        }
+    Scaffold {
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { juiceKadaiViewModel.onSubmit() },
+                    backgroundColor = Color.White
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Done,
+                        contentDescription = "Add"
+                    )
+                }
+            },
+            floatingActionButtonPosition = FabPosition.End,
+            content = {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(numColumns),
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(8.dp)
+                    ) {
+                        items(drinks.size) { index ->
+                            RoundedCardView(
+                                drinkId = drinks[index].drinkId,
+                                title = drinks[index].drinkName,
+                                juiceKadaiViewModel = juiceKadaiViewModel
+                            )
+                        }
+                    }
+                }
+            }
+        )
     }
 }
 

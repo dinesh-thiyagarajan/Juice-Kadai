@@ -41,4 +41,11 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
         _drinks.value = updatedList
     }
 
+    fun onSubmit() {
+        viewModelScope.launch {
+            juiceKadaiRepository.submitDrinksOrder(drinks = drinks.value)
+            _showJuiceSelectionComposable.value = false
+        }
+    }
+
 }
