@@ -19,7 +19,7 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
         listOf()
     )
 
-    suspend fun getDrinksList() {
+    fun getDrinksList() {
         viewModelScope.launch {
             juiceKadaiRepository.getDrinksList().let {
                 _drinks.value = it
@@ -29,6 +29,16 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
 
     fun showJuiceSelectionComposable(show: Boolean) {
         _showJuiceSelectionComposable.value = show
+    }
+
+    // TODO optimize this logic further, instead of creating a new mutable list everytime
+    fun onCounterChanged(drinkId: Int, count: Int) {
+        val index = drinks.value.indexOfFirst { it.drinkId == drinkId }
+        val drink = _drinks.value[index]
+        val updatedDrink = drink.copy(itemCount = count)
+        val updatedList = _drinks.value.toMutableList()
+        updatedList[index] = updatedDrink
+        _drinks.value = updatedList
     }
 
 }
