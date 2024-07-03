@@ -1,3 +1,6 @@
+package composables
+
+import JuiceKadaiViewModel
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -32,11 +35,11 @@ import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
-fun HomeComposable() {
+fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
         var twId by remember { mutableStateOf("") }
         var visible by remember { mutableStateOf(false) }
-
+        var showJuiceSelectionComposable by remember { mutableStateOf(false) }
         LaunchedEffect(Unit) {
             visible = true
         }
@@ -81,7 +84,7 @@ fun HomeComposable() {
 
             Button(
                 onClick = {
-
+                    showJuiceSelectionComposable = true
                 },
                 enabled = twId.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth(0.2f)
@@ -89,6 +92,9 @@ fun HomeComposable() {
                 Text("Submit")
             }
 
+            if (showJuiceSelectionComposable) {
+                DrinkSelectionComposable(juiceKadaiViewModel)
+            }
         }
     }
 

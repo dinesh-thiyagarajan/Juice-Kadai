@@ -1,11 +1,12 @@
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
+import composables.HomeComposable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun JuiceKadaiApp() {
+fun JuiceKadaiApp(juiceKadaiViewModel: JuiceKadaiViewModel) {
     MaterialTheme {
-        HomeComposable()
+        HomeComposable(juiceKadaiViewModel)
     }
 }

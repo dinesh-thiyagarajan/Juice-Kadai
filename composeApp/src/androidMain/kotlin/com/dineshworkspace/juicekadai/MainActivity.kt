@@ -1,24 +1,19 @@
 package com.dineshworkspace.juicekadai
 
 import JuiceKadaiApp
+import JuiceKadaiViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            JuiceKadaiApp()
+            val juiceKadaiViewModel: JuiceKadaiViewModel = viewModel { JuiceKadaiViewModel() }
+            JuiceKadaiApp(juiceKadaiViewModel)
         }
     }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    JuiceKadaiApp()
 }

@@ -16,12 +16,12 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -33,6 +33,11 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            // ktor for networking
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.core)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -78,6 +83,7 @@ android {
 }
 dependencies {
     implementation(libs.navigation.compose)
+    implementation(libs.ktor.client.okhttp)
 }
 
 compose.desktop {
