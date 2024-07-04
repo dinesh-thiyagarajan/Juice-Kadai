@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {
@@ -36,9 +37,10 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             // ktor for networking
             implementation(libs.ktor.client.core)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json.v200)
 
             implementation(libs.androidx.lifecycle.viewmodel)
         }
