@@ -33,11 +33,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Drink
 import juicekadai.composeapp.generated.resources.Res
-import juicekadai.composeapp.generated.resources.ic_juice
+import juicekadai.composeapp.generated.resources.ic_apple
+import juicekadai.composeapp.generated.resources.ic_coffee
+import juicekadai.composeapp.generated.resources.ic_fruit_bowl
+import juicekadai.composeapp.generated.resources.ic_orange
+import juicekadai.composeapp.generated.resources.ic_tea
+import juicekadai.composeapp.generated.resources.ic_watermelon
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import viewModels.JuiceKadaiViewModel
 import viewModels.JuicesUiState
@@ -100,6 +107,7 @@ fun GridListWithRoundedCardViews(
                             RoundedCardView(
                                 drinkId = drinks[index].drinkId,
                                 title = drinks[index].drinkName,
+                                imageId = drinks[index].drinkImage,
                                 juiceKadaiViewModel = juiceKadaiViewModel
                             )
                         }
@@ -110,8 +118,25 @@ fun GridListWithRoundedCardViews(
     }
 }
 
+private fun getResourceDrawable(imageId: String): DrawableResource {
+    return when (imageId.toLowerCase(androidx.compose.ui.text.intl.Locale.current)) {
+        "orange" -> Res.drawable.ic_orange
+        "apple" -> Res.drawable.ic_apple
+        "watermelon" -> Res.drawable.ic_watermelon
+        "fruitbowl" -> Res.drawable.ic_fruit_bowl
+        "tea" -> Res.drawable.ic_tea
+        "coffee" -> Res.drawable.ic_coffee
+        else -> Res.drawable.ic_orange
+    }
+}
+
 @Composable
-fun RoundedCardView(drinkId: String, title: String, juiceKadaiViewModel: JuiceKadaiViewModel) {
+fun RoundedCardView(
+    drinkId: String,
+    title: String,
+    imageId: String,
+    juiceKadaiViewModel: JuiceKadaiViewModel
+) {
     Card(
         modifier = Modifier
             .padding(20.dp)
@@ -120,7 +145,7 @@ fun RoundedCardView(drinkId: String, title: String, juiceKadaiViewModel: JuiceKa
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(vertical = 20.dp)) {
             Image(
-                painter = painterResource(Res.drawable.ic_juice),
+                painter = painterResource(getResourceDrawable(imageId)),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
