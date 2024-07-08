@@ -10,6 +10,9 @@ import repositories.JuiceKadaiRepository
 
 class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository) : ViewModel() {
 
+    /**TODO
+    Handling nav with composable action directly for now
+    Replace this with proper navigation and remove this from viewModel*/
     val showJuiceSelectionComposable: StateFlow<Boolean> get() = _showJuiceSelectionComposable
     private val _showJuiceSelectionComposable: MutableStateFlow<Boolean> = MutableStateFlow(false)
 

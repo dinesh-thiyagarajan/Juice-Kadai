@@ -8,7 +8,7 @@ data class Drink(
     val drinkName: String,
     val drinkImage: String,
     var itemCount: Int = 0,
-    val isAvailable: Boolean,
-    val nonAvailabilityReason: String,
-    val description: String?
+    val isAvailable: Boolean = false,
+    val nonAvailabilityReason: String? = null,
+    val description: String? = null
 )
