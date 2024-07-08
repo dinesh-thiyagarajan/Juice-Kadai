@@ -9,6 +9,10 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import network.ApiConstants.DATABASE_URL
 import network.httpClient
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 
 class JuiceKadaiRepository() {
 
@@ -24,7 +28,8 @@ class JuiceKadaiRepository() {
 
     suspend fun submitDrinksOrder(drinks: List<Drink>) {
         val drinksMap = drinks.associateBy { it.drinkId }
-        addDataToFirestore("04-06-24", drinksMap)
+        val formatter = SimpleDateFormat("dd-MM-yy", Locale.getDefault())
+        addDataToFirestore(formatter.format(Date()), drinksMap)
     }
 
     private suspend fun addDataToFirestore(collection: String, drinkData: Map<Int, Drink>) {
