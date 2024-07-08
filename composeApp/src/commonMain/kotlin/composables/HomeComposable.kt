@@ -29,7 +29,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import juicekadai.composeapp.generated.resources.Res
-import juicekadai.composeapp.generated.resources.ic_juice_icon
+import juicekadai.composeapp.generated.resources.ic_juice
 import org.jetbrains.compose.resources.painterResource
 import viewModels.JuiceKadaiViewModel
 
@@ -57,7 +57,7 @@ fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
         ) {
 
             Image(
-                painter = painterResource(Res.drawable.ic_juice_icon),
+                painter = painterResource(Res.drawable.ic_juice),
                 contentDescription = "Juice Image",
                 modifier = Modifier
                     .size(100.dp)

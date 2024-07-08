@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -35,17 +37,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Drink
 import juicekadai.composeapp.generated.resources.Res
-import juicekadai.composeapp.generated.resources.ic_juice_icon
+import juicekadai.composeapp.generated.resources.ic_juice
 import org.jetbrains.compose.resources.painterResource
 import viewModels.JuiceKadaiViewModel
+import viewModels.JuicesUiState
 
 @Composable
 fun DrinkSelectionComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
     LaunchedEffect(juiceKadaiViewModel) {
         juiceKadaiViewModel.getDrinksList()
     }
-    val drinks = juiceKadaiViewModel.drinks.collectAsState()
-    GridListWithRoundedCardViews(drinks.value, juiceKadaiViewModel = juiceKadaiViewModel)
+    val drinksUiState = juiceKadaiViewModel.drinksUiState.collectAsState()
+    when (drinksUiState.value) {
+        is JuicesUiState.Loading -> {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator()
+                Spacer(modifier = Modifier.height(10.dp))
+                Text("Please wait while we fetch the juices list for you")
+            }
+        }
+
+        is JuicesUiState.Success -> {
+            val drinks = (drinksUiState.value as JuicesUiState.Success).drinks
+            GridListWithRoundedCardViews(drinks, juiceKadaiViewModel = juiceKadaiViewModel)
+        }
+
+        is JuicesUiState.Error -> {}
+    }
 }
 
 @Composable
@@ -90,7 +111,7 @@ fun GridListWithRoundedCardViews(
 }
 
 @Composable
-fun RoundedCardView(drinkId: Int, title: String, juiceKadaiViewModel: JuiceKadaiViewModel) {
+fun RoundedCardView(drinkId: String, title: String, juiceKadaiViewModel: JuiceKadaiViewModel) {
     Card(
         modifier = Modifier
             .padding(20.dp)
@@ -99,7 +120,7 @@ fun RoundedCardView(drinkId: Int, title: String, juiceKadaiViewModel: JuiceKadai
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(vertical = 20.dp)) {
             Image(
-                painter = painterResource(Res.drawable.ic_juice_icon),
+                painter = painterResource(Res.drawable.ic_juice),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -125,10 +146,8 @@ fun RoundedCardView(drinkId: Int, title: String, juiceKadaiViewModel: JuiceKadai
 }
 
 @Composable
-fun Counter(drinkId: Int, juiceKadaiViewModel: JuiceKadaiViewModel) {
-    val count =
-        juiceKadaiViewModel.drinks.collectAsState().value.find { it.drinkId == drinkId }?.itemCount
-            ?: 0
+fun Counter(drinkId: String, juiceKadaiViewModel: JuiceKadaiViewModel) {
+    val orderCount = juiceKadaiViewModel.drinksList.find { it.drinkId == drinkId }?.orderCount ?: 0
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
@@ -136,18 +155,19 @@ fun Counter(drinkId: Int, juiceKadaiViewModel: JuiceKadaiViewModel) {
         Button(onClick = {
             juiceKadaiViewModel.onCounterChanged(
                 drinkId = drinkId,
-                count = count - 1
+                count = orderCount - 1
             )
         }) {
             Text(text = "-")
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = count.toString(), style = MaterialTheme.typography.h4)
+        Text(text = orderCount.toString(), style = MaterialTheme.typography.h4)
         Spacer(modifier = Modifier.width(16.dp))
         Button(onClick = {
             juiceKadaiViewModel.onCounterChanged(
+
                 drinkId = drinkId,
-                count = count + 1
+                count = orderCount + 1
             )
         }) {
             Text(text = "+")

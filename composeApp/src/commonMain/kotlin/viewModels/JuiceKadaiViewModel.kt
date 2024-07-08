@@ -3,10 +3,14 @@ package viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import data.Drink
+import data.Status
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import repositories.JuiceKadaiRepository
+
+const val JUICE_LIST_COLLECTION = "Juices"
 
 class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository) : ViewModel() {
 
@@ -16,16 +20,25 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
     val showJuiceSelectionComposable: StateFlow<Boolean> get() = _showJuiceSelectionComposable
     private val _showJuiceSelectionComposable: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-
-    val drinks: StateFlow<List<Drink>> get() = _drinks
-    private val _drinks: MutableStateFlow<List<Drink>> = MutableStateFlow(
-        listOf()
+    val drinksUiState: StateFlow<JuicesUiState> get() = _drinksUiState
+    private val _drinksUiState: MutableStateFlow<JuicesUiState> = MutableStateFlow(
+        JuicesUiState.Loading
     )
 
+    var drinksList = mutableListOf<Drink>()
+
     fun getDrinksList() {
-        viewModelScope.launch {
-            juiceKadaiRepository.getDrinksList().let {
-                _drinks.value = it
+        viewModelScope.launch(Dispatchers.IO) {
+            val drinksResponse = juiceKadaiRepository.getDrinksList(JUICE_LIST_COLLECTION)
+            when (drinksResponse.status) {
+                Status.Success -> {
+                    drinksList = drinksResponse.data?.toMutableList() ?: mutableListOf()
+                    _drinksUiState.value = JuicesUiState.Success(drinks = drinksList)
+                }
+
+                Status.Error -> {
+                    _drinksUiState.value = JuicesUiState.Error(message = drinksResponse.message)
+                }
             }
         }
     }
@@ -35,20 +48,26 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
     }
 
     // TODO optimize this logic further, instead of creating a new mutable list everytime
-    fun onCounterChanged(drinkId: Int, count: Int) {
-        val index = drinks.value.indexOfFirst { it.drinkId == drinkId }
-        val drink = _drinks.value[index]
-        val updatedDrink = drink.copy(itemCount = count)
-        val updatedList = _drinks.value.toMutableList()
+    fun onCounterChanged(drinkId: String, count: Int) {
+        val index = drinksList.indexOfFirst { it.drinkId == drinkId }
+        val drink = drinksList[index]
+        val updatedDrink = drink.copy(orderCount = count)
+        val updatedList = drinksList.toMutableList()
         updatedList[index] = updatedDrink
-        _drinks.value = updatedList
+        drinksList = updatedList
+        _drinksUiState.value = JuicesUiState.Success(drinks = drinksList)
     }
 
     fun onSubmit() {
-        viewModelScope.launch {
-            juiceKadaiRepository.submitDrinksOrder(drinks = drinks.value)
+        viewModelScope.launch(Dispatchers.IO) {
+            juiceKadaiRepository.submitDrinksOrder(drinks = drinksList)
             _showJuiceSelectionComposable.value = false
         }
     }
+}
 
+sealed interface JuicesUiState {
+    data object Loading : JuicesUiState
+    data class Success(val drinks: List<Drink>) : JuicesUiState
+    data class Error(val message: String?) : JuicesUiState
 }
