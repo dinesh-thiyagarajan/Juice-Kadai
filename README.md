@@ -4,6 +4,10 @@
 
 # Screenshots
 
+![juice_kadai_landing_screen](https://github.com/dinesh-thiyagarajan/Juice-Kadai/assets/17405840/252a3ab9-f3b2-4345-b2ea-a30c00e2ae0d)
+
+![juice_kadai_selection](https://github.com/dinesh-thiyagarajan/Juice-Kadai/assets/17405840/c4e1752a-1a94-4396-9e76-e36d9fba3dab)
+
 # Setup Instructions
 
 - Install Android Studio (Latest Stable or Canary Build)
