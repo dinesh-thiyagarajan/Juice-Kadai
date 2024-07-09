@@ -1,6 +1,6 @@
 # Juice Kadai
 
-**Juice Kadai** is a Kotlin Multiplatform project targeting Android, Desktop.
+**Juice Kadai** is a Kotlin Multiplatform project targeting Android, Desktop for placing juice orders, the app uses firebase realtime database for storing data
 
 # Screenshots
 
@@ -15,6 +15,9 @@
 - Please read the documentation for compose multiplatform [setup](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-setup.html) and follow the process
 - Choose the type of build that you wanted, ex: desktop, android, ios
 - Sync the gradle and see if you are able to build the project, if successful click on run
+- Create a new project in firebase
+- Copy the Database URL and API Key from firebase console and paste it in local.properties in their respective fields
+- Run the app
 
 # Acknowledgements
 
