@@ -38,7 +38,7 @@ import viewModels.JuiceKadaiViewModel
 @Composable
 fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
-        var twId by remember { mutableStateOf("") }
+        var userId by remember { mutableStateOf("") }
         var visible by remember { mutableStateOf(false) }
         LaunchedEffect(Unit) {
             visible = true
@@ -69,9 +69,9 @@ fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
             OutlinedTextField(
-                value = twId,
-                isError = twId.isEmpty(),
-                onValueChange = { twId = it },
+                value = userId,
+                isError = userId.isEmpty(),
+                onValueChange = { userId = it },
                 label = { Text("Please enter your ID") },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -86,7 +86,7 @@ fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
                 onClick = {
                     juiceKadaiViewModel.showJuiceSelectionComposable(show = true)
                 },
-                enabled = twId.isNotEmpty(),
+                enabled = userId.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth(0.2f)
             ) {
                 Text("Submit")
