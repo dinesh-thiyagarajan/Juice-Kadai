@@ -1,11 +1,17 @@
-This is a Kotlin Multiplatform project targeting Android, Desktop.
+# Juice Kadai
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+**Juice Kadai** is a Kotlin Multiplatform project targeting Android, Desktop.
 
+# Screenshots
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+# Setup Instructions
+
+- Install Android Studio (Latest Stable or Canary Build)
+- Add Kotlin Multi platform Plugin
+- Choose the build that you wanted and click on run
+- Please read the documentation for compose multiplatform [setup](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-setup.html)
+
+# Acknowledgements
+
+- The icons used in this app are from [SVG Repo](https://www.svgrepo.com)
+  
