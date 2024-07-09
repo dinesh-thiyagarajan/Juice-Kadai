@@ -3,6 +3,7 @@ package composables
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,9 +75,9 @@ fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
                 label = { Text("Please enter your ID") },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Done
                 ),
-                modifier = Modifier.fillMaxWidth(0.5f)
+                modifier = Modifier.fillMaxWidth(0.5f).focusable(enabled = true)
             )
 
             Spacer(modifier = Modifier.padding(top = 20.dp))

@@ -34,42 +34,42 @@ class JuiceKadaiRepository {
     suspend fun getDrinksList(collection: String): Response<List<Drink>> {
         val drinksList: MutableList<Drink> = mutableListOf()
         try {
-            val response = httpClient
-                .get("${DATABASE_URL}/${collection}.json") {
-                    header("Content-Type", "application/json")
-                }
+            val response: HttpResponse = httpClient.get("${DATABASE_URL}/${collection}.json") {
+                header("Content-Type", "application/json")
+            }
 
             if (response.status.value == 200) {
-                /** TODO
-                 * Find a way to reuse this same code in Juice Vendor App
-                 * **/
                 val jsonElement: JsonElement = Json.parseToJsonElement(response.bodyAsText())
                 val values = jsonElement.jsonObject.values.toList()
                 values.forEach { drinkItem ->
                     try {
                         val drink = Drink(
                             drinkId = (drinkItem as JsonObject)["drinkId"]?.jsonPrimitive?.contentOrNull
-                                ?: throw (Exception("Missing drinkId")),
+                                ?: throw Exception("Missing drinkId"),
                             drinkName = drinkItem["drinkName"]?.jsonPrimitive?.contentOrNull
                                 ?: throw Exception("Missing drinkName"),
                             drinkImage = drinkItem["drinkImage"]?.jsonPrimitive?.contentOrNull
                                 ?: throw Exception("Missing drinkImage"),
                             orderCount = drinkItem["orderCount"]?.jsonPrimitive?.int
-                                ?: throw (Exception("Missing orderCount")),
+                                ?: throw Exception("Missing orderCount")
                         )
                         drinksList.add(drink)
                     } catch (e: Exception) {
-                        // Handle or ignore exceptions
                         println("Error parsing drink item: ${e.message}")
                     }
                 }
                 return Response(status = Status.Success, data = drinksList)
+            } else {
+                return Response(
+                    status = Status.Error,
+                    data = null,
+                    message = "HTTP Error: ${response.status.value}"
+                )
             }
         } catch (ex: Exception) {
-            // handle http, socket exceptions
             // TODO remove this try catch and handle this via interceptors
+            return Response(status = Status.Error, data = null, message = ex.localizedMessage)
         }
-        return Response(status = Status.Error, data = drinksList, message = "Error occured")
     }
 
     suspend fun submitDrinksOrder(drinks: List<Drink>) {

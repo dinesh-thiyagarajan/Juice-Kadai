@@ -58,6 +58,7 @@ fun DrinkSelectionComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
     when (drinksUiState.value) {
         is JuicesUiState.Loading -> {
             Column(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
