@@ -17,7 +17,7 @@
 - Sync the gradle and see if you are able to build the project, if successful click on run
 - Create a new project in firebase
 - Copy the Database URL and API Key from firebase console and paste it in local.properties in their respective fields
-- Run this command in the terminal ./gradlew generateBuildKonfig, inside composeApp/build/buildkonfig, a BuildKonfig file will be generated, any keys and values referenced in the local.properties can be accessed from here
+- Run this command ./gradlew generateBuildKonfig in the terminal in the root directory of the project, inside composeApp/build/buildkonfig a BuildKonfig file will be generated, any keys and values referenced in the local.properties can be accessed from here
 - Run the app
 
 # Acknowledgements
