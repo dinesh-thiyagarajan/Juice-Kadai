@@ -49,6 +49,7 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
 
     // TODO optimize this logic further, instead of creating a new mutable list everytime
     fun onCounterChanged(drinkId: String, count: Int) {
+        if (count < 0) return
         val index = drinksList.indexOfFirst { it.drinkId == drinkId }
         val drink = drinksList[index]
         val updatedDrink = drink.copy(orderCount = count)
@@ -61,8 +62,12 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
     fun onSubmit() {
         viewModelScope.launch(Dispatchers.IO) {
             val selectedDrinks = drinksList.filter { it.orderCount > 0 }
+            if (selectedDrinks.isEmpty()) {
+                _showJuiceSelectionComposable.value = false
+                return@launch
+            }
             juiceKadaiRepository.submitDrinksOrder(drinks = selectedDrinks)
-            _showJuiceSelectionComposable.value = false
+            _showJuiceSelectionComposable.value = true
         }
     }
 }
