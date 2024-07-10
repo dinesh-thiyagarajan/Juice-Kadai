@@ -1,0 +1,53 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      shouldRunKmp:
+        required: true
+        type: string
+      shouldRunAndroid:
+        required: true
+        type: string
+      shouldRunDesktop:
+        required: true
+        type: string
+
+jobs:
+  Android:
+    if: ${{ inputs.shouldRunKmp == 'true' || inputs.shouldRunAndroid == 'true' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Job set up
+        uses: ./.github/actions/job-set-up
+
+      - run: ./gradlew :androidApp:assemble
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-app
+          path: |
+            androidApp/build/outputs/apk/Juice Kadai.apk
+
+  Desktop:
+    if: ${{ inputs.shouldRunKmp == 'true' || inputs.shouldRunDesktop == 'true' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Job set up
+        uses: ./.github/actions/job-set-up
+
+      - run: ./gradlew :desktopApp:assemble
+
+      - name: Upload Desktop App
+        uses: actions/upload-artifact@v3
+        with:
+          name: desktop-app
+          path: |
+            desktopApp/build/outputs/Juice Kadai.jar
