@@ -3,22 +3,38 @@ name: Build
 on:
   push:
     branches:
-      - main
-  workflow_call:
+      - main  # Specify the branch(es) you want to trigger the workflow on
+  workflow_dispatch:
     inputs:
       shouldRunKmp:
+        description: 'Run Kotlin Multiplatform'
         required: true
-        type: string
+        default: false
+        type: boolean
       shouldRunAndroid:
+        description: 'Run Android build'
         required: true
-        type: string
+        default: false
+        type: boolean
       shouldRunDesktop:
+        description: 'Run Desktop build'
         required: true
-        type: string
+        default: false
+        type: boolean
 
 jobs:
+  CheckInputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Inputs
+        run: |
+          echo "shouldRunKmp=${{ github.event.inputs.shouldRunKmp }}"
+          echo "shouldRunAndroid=${{ github.event.inputs.shouldRunAndroid }}"
+          echo "shouldRunDesktop=${{ github.event.inputs.shouldRunDesktop }}"
+
   Android:
-    if: ${{ inputs.shouldRunKmp == 'true' || inputs.shouldRunAndroid == 'true' }}
+    needs: CheckInputs
+    if: ${{ github.event.inputs.shouldRunKmp == 'true' || github.event.inputs.shouldRunAndroid == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -34,10 +50,12 @@ jobs:
         with:
           name: android-app
           path: |
-            androidApp/build/outputs/apk/Juice Kadai.apk
+            androidApp/build/outputs/apk/**/*.apk
+            # Specify the path(s) where your APK files are generated
 
   Desktop:
-    if: ${{ inputs.shouldRunKmp == 'true' || inputs.shouldRunDesktop == 'true' }}
+    needs: CheckInputs
+    if: ${{ github.event.inputs.shouldRunKmp == 'true' || github.event.inputs.shouldRunDesktop == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -53,4 +71,5 @@ jobs:
         with:
           name: desktop-app
           path: |
-            desktopApp/build/outputs/Juice Kadai.jar
+            desktopApp/build/libs/**/*.jar
+            # Adjust the path based on your build setup
