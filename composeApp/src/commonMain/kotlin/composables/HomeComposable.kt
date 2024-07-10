@@ -1,11 +1,10 @@
 package composables
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,7 +43,6 @@ import org.jetbrains.compose.resources.painterResource
 import viewModels.JuiceKadaiViewModel
 
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ImageSwitcher() {
     val images = listOf(
@@ -75,7 +73,11 @@ fun ImageSwitcher() {
             AnimatedContent(
                 targetState = currentImage,
                 transitionSpec = {
-                    fadeIn(animationSpec = tween(300)) with fadeOut(animationSpec = tween(300))
+                    fadeIn(animationSpec = tween(300)) togetherWith fadeOut(
+                        animationSpec = tween(
+                            300
+                        )
+                    )
                 }
             ) { targetImage ->
                 Image(
