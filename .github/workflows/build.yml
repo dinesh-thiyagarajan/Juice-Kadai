@@ -21,6 +21,7 @@ jobs:
 
       - name: Build Android and Desktop Apps
         run: |
+          ./gradlew clean
           ./gradlew :androidApp:assemble
           ./gradlew :desktopApp:assemble
 
