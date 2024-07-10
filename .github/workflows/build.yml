@@ -29,7 +29,7 @@ jobs:
       - name: Build Android and Desktop Apps
         run: |
           ./gradlew clean
-          ./gradlew :androidApp:assemble
+          ./gradlew :composeApp:assemble
           ./gradlew :desktopApp:assemble
 
       - name: Upload APK to GitHub Packages
