@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
@@ -142,7 +143,9 @@ fun RoundedCardView(
         modifier = Modifier
             .padding(20.dp)
             .fillMaxHeight(),
-        shape = MaterialTheme.shapes.medium
+        elevation = 8.dp,
+        backgroundColor = MaterialTheme.colors.surface,
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(vertical = 20.dp)) {
             Image(
