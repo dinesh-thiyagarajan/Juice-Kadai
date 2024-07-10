@@ -9,17 +9,17 @@ on:
       shouldRunKmp:
         description: 'Run Kotlin Multiplatform'
         required: true
-        default: false
+        default: true
         type: boolean
       shouldRunAndroid:
         description: 'Run Android build'
         required: true
-        default: false
+        default: true
         type: boolean
       shouldRunDesktop:
         description: 'Run Desktop build'
         required: true
-        default: false
+        default: true
         type: boolean
 
 jobs:
