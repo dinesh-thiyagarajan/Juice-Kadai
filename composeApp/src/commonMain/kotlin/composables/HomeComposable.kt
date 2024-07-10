@@ -174,7 +174,7 @@ fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
                         juiceKadaiViewModel.showJuiceSelectionComposable(show = true)
                     },
                     enabled = userId.isNotEmpty(),
-                    modifier = Modifier.fillMaxWidth(0.2f)
+                    modifier = Modifier.wrapContentSize()
                 ) {
                     Text("Submit")
                 }
