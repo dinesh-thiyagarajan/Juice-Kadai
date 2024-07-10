@@ -99,11 +99,9 @@ buildkonfig {
     packageName = "com.dineshworkspace.juicekadai"
 
     defaultConfigs {
-        val firebaseApiKey: String = gradleLocalProperties(rootDir).getProperty("FIREBASE_API_KEY")
         val firebaseDatabaseUrl: String =
             gradleLocalProperties(rootDir).getProperty("FIREBASE_DATABASE_URL")
 
-        buildConfigField(STRING, "FIREBASE_API_KEY", firebaseApiKey)
         buildConfigField(STRING, "FIREBASE_DATABASE_URL", firebaseDatabaseUrl)
     }
 }
