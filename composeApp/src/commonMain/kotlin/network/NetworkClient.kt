@@ -1,13 +1,14 @@
 package network
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 
- val httpClient = HttpClient {
+val httpClient = HttpClient {
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = true
@@ -15,5 +16,6 @@ import kotlinx.serialization.json.Json
             ignoreUnknownKeys = true
         })
     }
+    install(HttpCache)
     install(WebSockets)
 }
