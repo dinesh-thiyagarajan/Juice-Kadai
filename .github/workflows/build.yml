@@ -19,10 +19,13 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
+      - name: Update local.properties
+        run: | 
+          echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" > local.properties
+          echo "FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }}" > local.properties
+
       - name: Build Android and Desktop Apps
         run: |
-           echo 'FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }}' > ./local.properties
-           echo 'FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}' > ./local.properties
           ./gradlew clean
           ./gradlew :androidApp:assemble
           ./gradlew :desktopApp:assemble
