@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Drink
 import juicekadai.composeapp.generated.resources.Res
+import juicekadai.composeapp.generated.resources.ic_404
 import juicekadai.composeapp.generated.resources.ic_apple
 import juicekadai.composeapp.generated.resources.ic_coffee
 import juicekadai.composeapp.generated.resources.ic_fruit_bowl
@@ -75,7 +77,26 @@ fun DrinkSelectionComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
             GridListWithRoundedCardViews(drinks, juiceKadaiViewModel = juiceKadaiViewModel)
         }
 
-        is JuicesUiState.Error -> {}
+        is JuicesUiState.Error -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(Res.drawable.ic_404),
+                    contentDescription = "error",
+                    modifier = Modifier.size(50.dp),
+                    contentScale = ContentScale.Fit
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "Something went wrong while fetching the data, Please check your internet connection, if its fine please contact Admin",
+                    modifier = Modifier.padding(30.dp),
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+        }
     }
 }
 
