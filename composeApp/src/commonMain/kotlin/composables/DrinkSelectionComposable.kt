@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -103,7 +103,6 @@ fun DrinkSelectionComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
 @Composable
 fun GridListWithRoundedCardViews(
     drinks: List<Drink>,
-    numColumns: Int = 2,
     juiceKadaiViewModel: JuiceKadaiViewModel
 ) {
     Scaffold {
@@ -123,7 +122,7 @@ fun GridListWithRoundedCardViews(
             content = {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     LazyVerticalGrid(
-                        columns = GridCells.Fixed(numColumns),
+                        columns = GridCells.Fixed(2),
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(8.dp)
                     ) {
@@ -204,6 +203,7 @@ fun Counter(drinkId: String, juiceKadaiViewModel: JuiceKadaiViewModel) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Button(
+            modifier = Modifier.wrapContentWidth().fillMaxHeight().weight(1f).padding(start = 10.dp),
             onClick = {
                 juiceKadaiViewModel.onCounterChanged(
                     drinkId = drinkId,
@@ -217,10 +217,15 @@ fun Counter(drinkId: String, juiceKadaiViewModel: JuiceKadaiViewModel) {
         ) {
             Text(text = "-")
         }
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(text = orderCount.toString(), style = MaterialTheme.typography.h4)
-        Spacer(modifier = Modifier.width(16.dp))
+
+        Text(
+            text = orderCount.toString(),
+            style = MaterialTheme.typography.h4,
+            modifier = Modifier.wrapContentWidth().weight(1f).align(Alignment.CenterVertically)
+        )
+
         Button(
+            modifier = Modifier.wrapContentWidth().weight(1f).padding(end = 10.dp),
             onClick = {
                 juiceKadaiViewModel.onCounterChanged(
                     drinkId = drinkId,
