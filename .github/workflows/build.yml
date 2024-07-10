@@ -26,7 +26,7 @@ jobs:
       - name: Display contents of local.properties
         run: cat local.properties
 
-      - name: Build Android and Desktop Apps
+      - name: Build Android App
         run: |
           ./gradlew clean
           ./gradlew :composeApp:assemble
@@ -36,10 +36,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: android-app
-          path: androidApp/build/outputs/apk/juice_kadai.apk
-
-      - name: Upload Desktop App to GitHub Packages
-        uses: actions/upload-artifact@v2
-        with:
-          name: desktop-app
-          path: desktopApp/build/libs/juice_kadai.jar
+          path: composeApp/build/outputs/apk/juice_kadai.apk
