@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FabPosition
@@ -181,24 +182,35 @@ fun Counter(drinkId: String, juiceKadaiViewModel: JuiceKadaiViewModel) {
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Button(onClick = {
-            juiceKadaiViewModel.onCounterChanged(
-                drinkId = drinkId,
-                count = orderCount - 1
-            )
-        }) {
+        Button(
+            onClick = {
+                juiceKadaiViewModel.onCounterChanged(
+                    drinkId = drinkId,
+                    count = orderCount - 1
+                )
+            },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Gray,
+                contentColor = Color.White
+            ),
+        ) {
             Text(text = "-")
         }
         Spacer(modifier = Modifier.width(16.dp))
         Text(text = orderCount.toString(), style = MaterialTheme.typography.h4)
         Spacer(modifier = Modifier.width(16.dp))
-        Button(onClick = {
-            juiceKadaiViewModel.onCounterChanged(
-
-                drinkId = drinkId,
-                count = orderCount + 1
-            )
-        }) {
+        Button(
+            onClick = {
+                juiceKadaiViewModel.onCounterChanged(
+                    drinkId = drinkId,
+                    count = orderCount + 1
+                )
+            },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Gray,
+                contentColor = Color.White
+            ),
+        ) {
             Text(text = "+")
         }
     }
