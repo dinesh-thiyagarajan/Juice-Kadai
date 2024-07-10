@@ -1,49 +1,36 @@
-name: Build
+name: Build and Upload Artifacts
 
 on:
   push:
     branches:
-      - main
+      - main  # Specify the branch to trigger the workflow
 
 jobs:
-  Android:
+  build-and-upload:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Job set up
-        uses: gradle/gradle-build-action@v2
-        runs:
-          using: "composite"
-          steps:
-            - uses: actions/setup-java@v3
-              distribution: "adopt"
-              java-version: "11"
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'  # Set your Java version
 
-      - run: ./gradlew :androidApp:assemble
+      - name: Build Android and Desktop Apps
+        run: |
+          ./gradlew :androidApp:assemble
+          ./gradlew :desktopApp:assemble
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
+      - name: Upload APK to GitHub Packages
+        uses: actions/upload-artifact@v2
         with:
           name: android-app
-          path: |
-            androidApp/build/outputs/apk/juice_kadai.apk
+          path: androidApp/build/outputs/apk/juice_kadai.apk
 
-  Desktop:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Job set up
-        uses: ./.github/actions
-
-      - run: ./gradlew :desktopApp:assemble
-
-      - name: Upload Desktop App
-        uses: actions/upload-artifact@v3
+      - name: Upload Desktop App to GitHub Packages
+        uses: actions/upload-artifact@v2
         with:
           name: desktop-app
-          path: |
-            desktopApp/build/libs/juice_kadai.jar
+          path: desktopApp/build/libs/juice_kadai.jar
