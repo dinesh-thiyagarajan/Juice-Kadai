@@ -30,7 +30,6 @@ jobs:
         run: |
           ./gradlew clean
           ./gradlew :composeApp:assemble
-          ./gradlew :desktopApp:assemble
 
       - name: Upload APK to GitHub Packages
         uses: actions/upload-artifact@v2
