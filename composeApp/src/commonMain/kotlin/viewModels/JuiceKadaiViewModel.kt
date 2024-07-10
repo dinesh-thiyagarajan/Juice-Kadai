@@ -60,7 +60,8 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
 
     fun onSubmit() {
         viewModelScope.launch(Dispatchers.IO) {
-            juiceKadaiRepository.submitDrinksOrder(drinks = drinksList)
+            val selectedDrinks = drinksList.filter { it.orderCount > 0 }
+            juiceKadaiRepository.submitDrinksOrder(drinks = selectedDrinks)
             _showJuiceSelectionComposable.value = false
         }
     }
