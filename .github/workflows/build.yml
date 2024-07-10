@@ -3,7 +3,7 @@ name: Build and Upload Artifacts
 on:
   push:
     branches:
-      - main  # Specify the branch to trigger the workflow
+      - main
 
 jobs:
   build-and-upload:
@@ -16,7 +16,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '11'  # Set your Java version
+          java-version: '11'
+          distribution: 'adopt'
 
       - name: Build Android and Desktop Apps
         run: |
