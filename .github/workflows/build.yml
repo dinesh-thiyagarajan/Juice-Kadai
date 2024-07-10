@@ -9,18 +9,15 @@ on:
       shouldRunKmp:
         description: 'Run Kotlin Multiplatform'
         required: true
-        default: true
-        type: boolean
+        type: string
       shouldRunAndroid:
         description: 'Run Android build'
         required: true
-        default: true
-        type: boolean
+        type: string
       shouldRunDesktop:
         description: 'Run Desktop build'
         required: true
-        default: true
-        type: boolean
+        type: string
 
 jobs:
   CheckInputs:
