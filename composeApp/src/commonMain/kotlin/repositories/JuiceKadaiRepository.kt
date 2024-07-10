@@ -10,6 +10,7 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -31,11 +32,14 @@ class JuiceKadaiRepository {
      * Save this in local DB and fetch this data only once
      * Check if room is available for ,Compose Multi-platform
      * **/
-    suspend fun getDrinksList(collection: String): Response<List<Drink>> {
+    suspend fun getDrinksList(collection: String, skipCache: Boolean): Response<List<Drink>> {
         val drinksList: MutableList<Drink> = mutableListOf()
         try {
             val response: HttpResponse = httpClient.get("${DATABASE_URL}/${collection}.json") {
-                header("Content-Type", "application/json")
+                contentType(ContentType.Application.Json)
+                if (skipCache) {
+                    header(HttpHeaders.CacheControl, "no-cache")
+                }
             }
 
             if (response.status.value == 200) {

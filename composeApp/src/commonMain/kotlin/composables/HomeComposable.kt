@@ -6,10 +6,12 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,15 +21,22 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -36,9 +45,11 @@ import juicekadai.composeapp.generated.resources.ic_apple
 import juicekadai.composeapp.generated.resources.ic_coffee
 import juicekadai.composeapp.generated.resources.ic_fruit_bowl
 import juicekadai.composeapp.generated.resources.ic_orange
+import juicekadai.composeapp.generated.resources.ic_refresh
 import juicekadai.composeapp.generated.resources.ic_tea
 import juicekadai.composeapp.generated.resources.ic_watermelon
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import viewModels.JuiceKadaiViewModel
 
@@ -92,41 +103,81 @@ fun ImageSwitcher() {
 
 @Composable
 fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        var userId by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+    val snackUiState by juiceKadaiViewModel.snackUiState.collectAsState()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
+    val scaffoldState = rememberScaffoldState()
+    val snackBarHostState = scaffoldState.snackbarHostState
 
-            ImageSwitcher()
-            Spacer(modifier = Modifier.padding(top = 20.dp))
-            OutlinedTextField(
-                value = userId,
-                isError = userId.isEmpty(),
-                onValueChange = { userId = it },
-                label = { Text("Please enter your ID") },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
-                ),
-                modifier = Modifier.fillMaxWidth(0.5f).focusable(enabled = true)
-            )
+    LaunchedEffect(snackUiState) {
+        snackUiState.let {
+            it.snackMessage?.let { msg ->
+                val result = snackBarHostState.showSnackbar(
+                    message = msg,
+                    actionLabel = "Dismiss"
+                )
+                if (result == SnackbarResult.Dismissed || result == SnackbarResult.ActionPerformed) {
+                    juiceKadaiViewModel.updateSnackBarUiState(show = false)
+                }
+            }
+        }
+    }
 
-            Spacer(modifier = Modifier.padding(top = 20.dp))
+    Scaffold(
+        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            var userId by remember { mutableStateOf("") }
 
-            Button(
-                onClick = {
-                    juiceKadaiViewModel.showJuiceSelectionComposable(show = true)
-                },
-                enabled = userId.isNotEmpty(),
-                modifier = Modifier.fillMaxWidth(0.2f)
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(20.dp),
+                horizontalArrangement = Arrangement.End
             ) {
-                Text("Submit")
+                Image(
+                    painter = painterResource(Res.drawable.ic_refresh),
+                    contentDescription = "refresh juice orders",
+                    modifier = Modifier.size(30.dp).clickable {
+                        coroutineScope.launch {
+                            juiceKadaiViewModel.refreshDrinksList()
+                        }
+                    },
+                    contentScale = ContentScale.Fit
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                ImageSwitcher()
+                Spacer(modifier = Modifier.padding(top = 20.dp))
+                OutlinedTextField(
+                    value = userId,
+                    isError = userId.isEmpty(),
+                    onValueChange = { userId = it },
+                    label = { Text("Please enter your ID") },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    modifier = Modifier.fillMaxWidth(0.5f).focusable(enabled = true)
+                )
+
+                Spacer(modifier = Modifier.padding(top = 20.dp))
+
+                Button(
+                    onClick = {
+                        juiceKadaiViewModel.showJuiceSelectionComposable(show = true)
+                    },
+                    enabled = userId.isNotEmpty(),
+                    modifier = Modifier.fillMaxWidth(0.2f)
+                ) {
+                    Text("Submit")
+                }
             }
         }
     }

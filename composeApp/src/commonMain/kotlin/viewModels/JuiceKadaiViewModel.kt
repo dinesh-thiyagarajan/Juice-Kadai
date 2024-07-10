@@ -3,6 +3,7 @@ package viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import data.Drink
+import data.SnackUiState
 import data.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,19 +26,43 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
         JuicesUiState.Loading
     )
 
+    val snackUiState: StateFlow<SnackUiState> get() = _snackUiState
+    private val _snackUiState: MutableStateFlow<SnackUiState> = MutableStateFlow(
+        SnackUiState()
+    )
+
     var drinksList = mutableListOf<Drink>()
 
-    fun getDrinksList() {
+    fun refreshDrinksList() {
+        getDrinksList(skipCache = true)
+    }
+
+    fun getDrinksList(skipCache: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
-            val drinksResponse = juiceKadaiRepository.getDrinksList(JUICE_LIST_COLLECTION)
+            val drinksResponse =
+                juiceKadaiRepository.getDrinksList(JUICE_LIST_COLLECTION, skipCache = skipCache)
             when (drinksResponse.status) {
                 Status.Success -> {
                     drinksList = drinksResponse.data?.toMutableList() ?: mutableListOf()
                     _drinksUiState.value = JuicesUiState.Success(drinks = drinksList)
+                    if (skipCache) {
+                        val updatedSnackUiState = _snackUiState.value.copy(
+                            showSnackBar = true,
+                            snackMessage = "Updated Juice List is Available now"
+                        )
+                        _snackUiState.value = updatedSnackUiState
+                    }
                 }
 
                 Status.Error -> {
                     _drinksUiState.value = JuicesUiState.Error(message = drinksResponse.message)
+                    if (skipCache) {
+                        val updatedSnackUiState = _snackUiState.value.copy(
+                            showSnackBar = true,
+                            snackMessage = "Updating Juices list failed, Please check with Admin"
+                        )
+                        _snackUiState.value = updatedSnackUiState
+                    }
                 }
             }
         }
@@ -69,6 +94,12 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
             juiceKadaiRepository.submitDrinksOrder(drinks = selectedDrinks)
             _showJuiceSelectionComposable.value = false
         }
+    }
+
+    fun updateSnackBarUiState(show: Boolean = false, message: String? = null) {
+        val updatedSnackUiState =
+            _snackUiState.value.copy(showSnackBar = show, snackMessage = message)
+        _snackUiState.value = updatedSnackUiState
     }
 }
 
