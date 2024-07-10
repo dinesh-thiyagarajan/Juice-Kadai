@@ -35,4 +35,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: android-app
-          path: composeApp/build/outputs/apk/juice_kadai.apk
+          path: composeApp/build/outputs/apk/release/*.apk
