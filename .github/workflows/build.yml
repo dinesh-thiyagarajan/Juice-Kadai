@@ -9,10 +9,17 @@ jobs:
   Android:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - name: Job set up
-        uses: ./.github/actions
+        uses: gradle/gradle-build-action@v2
+        runs:
+          using: "composite"
+          steps:
+            - uses: actions/setup-java@v3
+              distribution: "adopt"
+              java-version: "11"
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - run: ./gradlew :androidApp:assemble
 
