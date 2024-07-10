@@ -20,9 +20,12 @@ jobs:
           distribution: 'adopt'
 
       - name: Update local.properties
-        run: | 
+        run: |
           echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" > local.properties
           echo "FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }}" > local.properties
+
+      - name: Display contents of local.properties
+        run: cat local.properties
 
       - name: Build Android and Desktop Apps
         run: |
