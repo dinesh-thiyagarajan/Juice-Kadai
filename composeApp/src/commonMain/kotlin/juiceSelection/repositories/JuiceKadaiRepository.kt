@@ -1,4 +1,4 @@
-package repositories
+package juiceSelection.repositories
 
 import data.Drink
 import data.Response

@@ -1,4 +1,4 @@
-package viewModels
+package juiceSelection.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import repositories.JuiceKadaiRepository
+import juiceSelection.repositories.JuiceKadaiRepository
 
 const val JUICE_LIST_COLLECTION = "Juices"
 
@@ -40,7 +40,7 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
     fun getDrinksList(skipCache: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
             val drinksResponse =
-                juiceKadaiRepository.getDrinksList(JUICE_LIST_COLLECTION, skipCache = skipCache)
+                juiceKadaiRepository.getDrinksList(JUICE_LIST_COLLECTION, skipCache = skipCache, idToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjU2OTFhMTk1YjI0MjVlMmFlZDYwNjMzZDdjYjE5MDU0MTU2Yjk3N2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vanVpY2Uta2FkYWkiLCJhdWQiOiJqdWljZS1rYWRhaSIsImF1dGhfdGltZSI6MTcyMDY3NzMxNSwidXNlcl9pZCI6Im9Jc0d2YXB3WDZSSEdXM053THZONnJ2T3lZeTIiLCJzdWIiOiJvSXNHdmFwd1g2UkhHVzNOd0x2TjZydk95WXkyIiwiaWF0IjoxNzIwNjc3MzE1LCJleHAiOjE3MjA2ODA5MTUsImVtYWlsIjoiZGluZXNoa2FydGhpZUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiZGluZXNoa2FydGhpZUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.CBiSQfnXnaOiIyUpaYravPAjgl67jNpg_LIIZqqc5TgNYmvdIF6H4hRGTL7KCCmbCUtBd64S7kDo3emxA50xxEXVQ4M4t4p_cB4_gNJd50VupmPq5JTexL56HeOD0Kz90wXTCe68U6NcFZXQv4V2qvndSrn8o8aG5DNch2ARPgK4O0KxgwS3zlc4Ur-pQZ1HEj2_1DoEicJ31GwowhcPkvNo4gpCYtxd-x9uUpRtkgktWGJXXSSSY_WK7X7G7G4vvZ1gLo6A1xK4qdkpAtMjyT7Pdy0XBxvbo0AlT1SfOJtW_EQpDlfVZ_WWa3AfsuvZalbHBgoT9nk-opRWlel3vQ")
             when (drinksResponse.status) {
                 Status.Success -> {
                     drinksList = drinksResponse.data?.toMutableList() ?: mutableListOf()

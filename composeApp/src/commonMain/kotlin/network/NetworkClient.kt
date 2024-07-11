@@ -1,5 +1,8 @@
 package network
 
+import dataStore.ID_TOKEN
+import dataStore.REFRESH_TOKEN
+import dataStore.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -8,6 +11,8 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -35,7 +40,19 @@ val httpClient = HttpClient {
     install(HttpCache)
     install(WebSockets)
 
+    install(Auth) {
+        bearer {
+            loadTokens {
+                val accessToken = Settings.getString(ID_TOKEN)
+                val refreshToken = Settings.getString(REFRESH_TOKEN)
+                BearerTokens(accessToken = accessToken, refreshToken = refreshToken)
+            }
+        }
+
+    }
+
     defaultRequest {
         url(Config.BASE_URL)
+        contentType(ContentType.Application.Json)
     }
 }

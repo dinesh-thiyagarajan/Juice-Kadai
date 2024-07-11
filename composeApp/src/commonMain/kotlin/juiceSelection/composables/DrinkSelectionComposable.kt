@@ -1,4 +1,4 @@
-package composables
+package juiceSelection.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -51,8 +51,8 @@ import juicekadai.composeapp.generated.resources.ic_tea
 import juicekadai.composeapp.generated.resources.ic_watermelon
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import viewModels.JuiceKadaiViewModel
-import viewModels.JuicesUiState
+import juiceSelection.viewModels.JuiceKadaiViewModel
+import juiceSelection.viewModels.JuicesUiState
 
 @Composable
 fun DrinkSelectionComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {

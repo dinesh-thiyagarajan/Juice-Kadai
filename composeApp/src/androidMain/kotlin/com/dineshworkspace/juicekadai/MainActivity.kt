@@ -5,8 +5,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.viewmodel.compose.viewModel
-import repositories.JuiceKadaiRepository
-import viewModels.JuiceKadaiViewModel
+import auth.repositories.AuthRepository
+import auth.viewModels.AuthViewModel
+import juiceSelection.repositories.JuiceKadaiRepository
+import juiceSelection.viewModels.JuiceKadaiViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +17,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             val juiceKadaiViewModel: JuiceKadaiViewModel =
                 viewModel { JuiceKadaiViewModel(JuiceKadaiRepository()) }
-            JuiceKadaiApp(juiceKadaiViewModel)
+            val authViewModel: AuthViewModel =
+                viewModel { AuthViewModel(AuthRepository()) }
+            JuiceKadaiApp(
+                authViewModel = authViewModel,
+                juiceKadaiViewModel = juiceKadaiViewModel
+            )
         }
     }
 }

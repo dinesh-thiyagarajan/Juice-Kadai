@@ -1,4 +1,4 @@
-package composables
+package juiceSelection.composables
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -51,7 +51,7 @@ import juicekadai.composeapp.generated.resources.ic_watermelon
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-import viewModels.JuiceKadaiViewModel
+import juiceSelection.viewModels.JuiceKadaiViewModel
 
 
 @Composable
