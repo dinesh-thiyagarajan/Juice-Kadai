@@ -28,10 +28,6 @@ import java.util.Locale
 
 class JuiceKadaiRepository {
 
-    /** TODO
-     * Save this in local DB and fetch this data only once
-     * Check if room is available for ,Compose Multi-platform
-     * **/
     suspend fun getDrinksList(collection: String, skipCache: Boolean): Response<List<Drink>> {
         val drinksList: MutableList<Drink> = mutableListOf()
         try {
