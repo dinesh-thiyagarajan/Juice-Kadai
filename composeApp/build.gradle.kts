@@ -110,8 +110,12 @@ buildkonfig {
         val printHttpLogs: String =
             gradleLocalProperties(rootDir).getProperty("PRINT_HTTP_LOGS")
 
+        val apiKey: String =
+            gradleLocalProperties(rootDir).getProperty("API_KEY")
+
         buildConfigField(STRING, "BASE_URL", baseUrl)
         buildConfigField(STRING, "PRINT_HTTP_LOGS", printHttpLogs)
+        buildConfigField(STRING, "API_KEY", apiKey)
     }
 }
 

@@ -13,8 +13,6 @@ import io.ktor.client.request.post
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import kotlinx.serialization.json.Json
-import network.ApiConstants
 import network.httpClient
 import network.json
 
@@ -23,7 +21,7 @@ class AuthRepository {
     suspend fun login(email: String, password: String): Response<AuthResponse> {
         try {
             val response = httpClient
-                .post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${ApiConstants.API_KEY}") {
+                .post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${""}") {
                     contentType(ContentType.Application.Json)
                     parameter("email", email)
                     parameter("password", password)
@@ -49,18 +47,17 @@ class AuthRepository {
         Settings.addInt(TOKEN_EXPIRES_IN, authResponse.expiresIn)
     }
 
-    suspend fun isLoggedIn(): Boolean = Settings.getString(ID_TOKEN).isNotEmpty()
+    fun isLoggedIn(): Boolean = Settings.getString(ID_TOKEN).isNotEmpty()
 
     suspend fun getRefreshToken(refreshToken: String?) {
         val responseBody = httpClient
-            .post("https://securetoken.googleapis.com/v1/token?key=${ApiConstants.API_KEY}") {
+            .post("https://securetoken.googleapis.com/v1/token?key=${""}") {
                 contentType(ContentType.Application.Json)
                 parameter("grant_type", "refresh_token")
                 parameter("refresh_token", refreshToken)
             }
         if (responseBody.status.value in 200..299) {
-            val response = Json { ignoreUnknownKeys = true }
-                .decodeFromString<TokenResponse>(responseBody.bodyAsText())
+            val response = json.decodeFromString<TokenResponse>(responseBody.bodyAsText())
 
         } else {
 
