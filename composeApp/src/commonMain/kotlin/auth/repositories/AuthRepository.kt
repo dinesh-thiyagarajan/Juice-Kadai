@@ -16,6 +16,7 @@ import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
 import network.ApiConstants
 import network.httpClient
+import network.json
 
 class AuthRepository {
 
@@ -31,7 +32,7 @@ class AuthRepository {
 
             println(response.bodyAsText())
             if (response.status.value == 200) {
-                val authResponse = Json.decodeFromString<AuthResponse>(response.bodyAsText())
+                val authResponse = json.decodeFromString<AuthResponse>(response.bodyAsText())
                 saveAuthToDataStore(authResponse = authResponse)
                 return Response(status = Status.Success, data = authResponse)
             } else {

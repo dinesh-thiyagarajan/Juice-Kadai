@@ -9,15 +9,15 @@ const val TOKEN_EXPIRES_IN = "TOKEN_EXPIRES_IN"
 object Settings {
     private var settings: Settings = Settings()
 
-    suspend fun addString(key: String, value: String) {
+    fun addString(key: String, value: String) {
         settings.putString(key = key, value = value)
     }
 
-    suspend fun getString(key: String): String {
+    fun getString(key: String): String {
         return settings.getString(key = key, defaultValue = "")
     }
 
-    suspend fun addInt(key: String, value: Int) {
+    fun addInt(key: String, value: Int) {
         settings.putInt(key = key, value = value)
     }
 

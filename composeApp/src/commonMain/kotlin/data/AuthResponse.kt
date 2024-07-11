@@ -5,15 +5,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AuthResponse(
-    @SerialName("id_token")
+    @SerialName("kind")
+    val kind: String,
+    @SerialName("idToken")
     val idToken: String,
     @SerialName("email")
     val email: String,
-    @SerialName("refresh_token")
+    @SerialName("refreshToken")
     val refreshToken: String,
-    @SerialName("expires_in")
+    @SerialName("expiresIn")
     val expiresIn: Int,
-    @SerialName("local_id")
+    @SerialName("localId")
     val localId: String
 )
 
