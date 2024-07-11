@@ -24,9 +24,6 @@ jobs:
           echo "BASE_URL=${{ secrets.BASE_URL }}" > local.properties
           echo "PRINT_HTTP_LOGS=${{ secrets.PRINT_HTTP_LOGS }}" >> local.properties
 
-      - name: Display contents of local.properties
-        run: cat local.properties
-
       - name: Build Android App
         run: |
           ./gradlew clean
