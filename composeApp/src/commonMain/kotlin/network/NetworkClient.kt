@@ -15,14 +15,14 @@ import kotlinx.serialization.json.Json
 val httpClient = HttpClient {
 
     install(Logging) {
-        logger = object : Logger {
-            override fun log(message: String) {
-                if (Config.PRINT_HTTP_LOGS) {
+        if (Config.PRINT_HTTP_LOGS) {
+            logger = object : Logger {
+                override fun log(message: String) {
                     println("HTTP Log: $message")
                 }
             }
+            level = LogLevel.ALL
         }
-        level = LogLevel.ALL
     }
 
     install(ContentNegotiation) {
