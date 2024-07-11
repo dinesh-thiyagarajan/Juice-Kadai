@@ -29,22 +29,10 @@ jobs:
       - name: Build Android App
         run: |
           ./gradlew clean
-          ./gradlew :composeApp:assembleRelease
-
-      - name: Sign APK
-        env:
-          KEYSTORE: ${{ secrets.KEYSTORE }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-
-        run: |
-          echo "$KEYSTORE" | base64 -d > keystore.jks
-          ./gradlew signingReport
-          ./gradlew bundleRelease
+          ./gradlew :composeApp:assembleDebug
 
       - name: Upload APK to GitHub Packages
         uses: actions/upload-artifact@v2
         with:
           name: android-app
-          path: composeApp/build/outputs/apk/release/*.apk
+          path: composeApp/build/outputs/apk/debug/*.apk
