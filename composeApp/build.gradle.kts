@@ -43,7 +43,8 @@ kotlin {
             implementation(libs.ktor.client.cio)
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json.v200)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
 
             implementation(libs.androidx.lifecycle.viewmodel)
         }
@@ -99,10 +100,14 @@ buildkonfig {
     packageName = "com.dineshworkspace.juicekadai"
 
     defaultConfigs {
-        val firebaseDatabaseUrl: String =
-            gradleLocalProperties(rootDir).getProperty("FIREBASE_DATABASE_URL")
+        val baseUrl: String =
+            gradleLocalProperties(rootDir).getProperty("BASE_URL")
 
-        buildConfigField(STRING, "FIREBASE_DATABASE_URL", firebaseDatabaseUrl)
+        val printHttpLogs: String =
+            gradleLocalProperties(rootDir).getProperty("PRINT_HTTP_LOGS")
+
+        buildConfigField(STRING, "BASE_URL", baseUrl)
+        buildConfigField(STRING, "PRINT_HTTP_LOGS", printHttpLogs)
     }
 }
 

@@ -19,7 +19,7 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import network.ApiConstants.DATABASE_URL
+
 import network.httpClient
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -35,7 +35,7 @@ class JuiceKadaiRepository {
     suspend fun getDrinksList(collection: String, skipCache: Boolean): Response<List<Drink>> {
         val drinksList: MutableList<Drink> = mutableListOf()
         try {
-            val response: HttpResponse = httpClient.get("${DATABASE_URL}/${collection}.json") {
+            val response: HttpResponse = httpClient.get("/${collection}.json") {
                 contentType(ContentType.Application.Json)
                 if (skipCache) {
                     header(HttpHeaders.CacheControl, "no-cache")
@@ -84,7 +84,7 @@ class JuiceKadaiRepository {
 
     private suspend fun addDataToFirestore(collection: String, drinkData: Map<String, Drink>) {
         try {
-            val response: HttpResponse = httpClient.post("${DATABASE_URL}/${collection}.json") {
+            val response: HttpResponse = httpClient.post("/${collection}.json") {
                 contentType(ContentType.Application.Json)
                 setBody(drinkData)
             }
