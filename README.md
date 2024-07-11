@@ -1,3 +1,5 @@
+[![Android Build](https://github.com/dinesh-thiyagarajan/Juice-Kadai/actions/workflows/build.yml/badge.svg)](https://github.com/dinesh-thiyagarajan/Juice-Kadai/actions/workflows/build.yml)
+
 # Juice Kadai
 
 **Juice Kadai** is a Kotlin Multiplatform project targeting Android, Desktop for placing juice orders, the app uses firebase realtime database for storing data
