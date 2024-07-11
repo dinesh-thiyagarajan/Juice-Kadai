@@ -21,10 +21,8 @@ jobs:
 
       - name: Update local.properties
         run: |
-          echo "FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }}" > local.properties
-
-      - name: Display contents of local.properties
-        run: cat local.properties
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > local.properties
+          echo "PRINT_HTTP_LOGS=${{ secrets.PRINT_HTTP_LOGS }}" > local.properties
 
       - name: Build Android App
         run: |
