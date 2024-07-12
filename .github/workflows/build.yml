@@ -19,10 +19,16 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Update local.properties
+      - name: Create and Update local.properties
         run: |
-          echo "BASE_URL=${{ secrets.BASE_URL }}" > local.properties
+          echo "PROJECT_ID=${{ secrets.PROJECT_ID }}" > local.properties
+          echo "APP_ID=${{ secrets.APP_ID }}" >> local.properties
+          echo "API_KEY=${{ secrets.API_KEY }}" >> local.properties
           echo "PRINT_HTTP_LOGS=${{ secrets.PRINT_HTTP_LOGS }}" >> local.properties
+
+      - name: Create and Update google-services.json
+        run: |
+          echo "GOOGLE_SERVICES_JSON=${{ secrets.GOOGLE_SERVICES_JSON }}" > composeApp/googleServices/google-services.json
 
       - name: Build Android App
         run: |
