@@ -31,8 +31,8 @@ jobs:
 
       - name: Create and Update google-services.json for Debug Build
         run: |
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > composeApp/src/debug/google-services.json
-          cat composeApp/src/debug/google-services.json
+          echo "${{secrets.GOOGLE_SERVICES_JSON}}" > composeApp/src/debug/google-services.json
+          echo ${{secrets.GOOGLE_SERVICES_JSON}} | sed 's/./& /g'
 
       - name: Build Android App
         run: |
