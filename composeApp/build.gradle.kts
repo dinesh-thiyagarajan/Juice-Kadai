@@ -11,13 +11,14 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.buildKonfig)
+    id("com.google.gms.google-services")
 }
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
@@ -38,6 +39,11 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            // Firebase Auth and Realtime DB Dependencies
+            implementation(libs.gitlive.firebase.auth)
+            implementation(libs.firebase.database)
+            implementation(libs.kotlinx.coroutines.core)
+
             // ktor for networking
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
@@ -85,8 +91,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
@@ -97,25 +103,28 @@ android {
 }
 dependencies {
     implementation(libs.navigation.compose)
-    implementation(libs.ktor.client.okhttp)
 }
 
 buildkonfig {
     packageName = "com.dineshworkspace.juicekadai"
 
     defaultConfigs {
-        val baseUrl: String =
-            gradleLocalProperties(rootDir).getProperty("BASE_URL")
+        val projectId: String =
+            gradleLocalProperties(rootDir).getProperty("PROJECT_ID")
 
-        val printHttpLogs: String =
-            gradleLocalProperties(rootDir).getProperty("PRINT_HTTP_LOGS")
+        val appId: String =
+            gradleLocalProperties(rootDir).getProperty("APP_ID")
 
         val apiKey: String =
             gradleLocalProperties(rootDir).getProperty("API_KEY")
 
-        buildConfigField(STRING, "BASE_URL", baseUrl)
-        buildConfigField(STRING, "PRINT_HTTP_LOGS", printHttpLogs)
+        val printHttpLogs: String =
+            gradleLocalProperties(rootDir).getProperty("PRINT_HTTP_LOGS")
+
+        buildConfigField(STRING, "PROJECT_ID", projectId)
+        buildConfigField(STRING, "APP_ID", appId)
         buildConfigField(STRING, "API_KEY", apiKey)
+        buildConfigField(STRING, "PRINT_HTTP_LOGS", printHttpLogs)
     }
 }
 

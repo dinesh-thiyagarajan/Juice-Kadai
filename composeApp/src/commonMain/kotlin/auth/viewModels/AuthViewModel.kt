@@ -13,7 +13,7 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
     val authUiState: StateFlow<AuthUiState> get() = _authUiState
     private val _authUiState: MutableStateFlow<AuthUiState> = MutableStateFlow(
-        AuthUiState.NotLoggedIn
+        AuthUiState.FetchingLoginStatus
     )
 
     // TODO remove this from constructor and implement a better way
@@ -41,7 +41,7 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
         }
     }
 
-    private suspend fun isLoggedIn() {
+    private fun isLoggedIn() {
         viewModelScope.launch {
             val isLoggedIn = authRepository.isLoggedIn()
             if (isLoggedIn) {

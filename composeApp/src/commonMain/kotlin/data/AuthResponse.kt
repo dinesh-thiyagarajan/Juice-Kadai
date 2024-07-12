@@ -18,19 +18,3 @@ data class AuthResponse(
     @SerialName("localId")
     val localId: String
 )
-
-@Serializable
-data class TokenResponse(
-    @SerialName("id_token")
-    val idToken: String,
-    @SerialName("expires_in")
-    val expiresIn: String,
-    @SerialName("token_type")
-    val tokenType: String,
-    @SerialName("refresh_token")
-    val refreshToken: String,
-    @SerialName("user_id")
-    val userId: String,
-    @SerialName("project_id")
-    val projectId: String
-)

@@ -3,65 +3,24 @@ package auth.repositories
 import data.AuthResponse
 import data.Response
 import data.Status
-import data.TokenResponse
-import dataStore.ID_TOKEN
-import dataStore.REFRESH_TOKEN
-import dataStore.Settings
-import dataStore.TOKEN_EXPIRES_IN
-import io.ktor.client.request.parameter
-import io.ktor.client.request.post
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
-import network.httpClient
-import network.json
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.FirebaseAuth
+import dev.gitlive.firebase.auth.auth
 
-class AuthRepository {
+class AuthRepository(private val firebaseAuth: FirebaseAuth = Firebase.auth) {
 
     suspend fun login(email: String, password: String): Response<AuthResponse> {
         try {
-            val response = httpClient
-                .post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${""}") {
-                    contentType(ContentType.Application.Json)
-                    parameter("email", email)
-                    parameter("password", password)
-                    parameter("returnSecureToken", true)
-                }
-
-            println(response.bodyAsText())
-            if (response.status.value == 200) {
-                val authResponse = json.decodeFromString<AuthResponse>(response.bodyAsText())
-                saveAuthToDataStore(authResponse = authResponse)
-                return Response(status = Status.Success, data = authResponse)
-            } else {
-                return Response(status = Status.Error, data = null, message = response.bodyAsText())
+            val authResult =
+                firebaseAuth.signInWithEmailAndPassword(email = email, password = password)
+            if (authResult.user == null) {
+                return Response(status = Status.Error, message = "Login Failed")
             }
+            return Response(status = Status.Success, message = "Login Success")
         } catch (ex: Exception) {
-            return Response(status = Status.Error, data = null, message = ex.message)
+            return Response(status = Status.Error, message = ex.message)
         }
     }
 
-    private suspend fun saveAuthToDataStore(authResponse: AuthResponse) {
-        Settings.addString(ID_TOKEN, authResponse.idToken)
-        Settings.addString(REFRESH_TOKEN, authResponse.refreshToken)
-        Settings.addInt(TOKEN_EXPIRES_IN, authResponse.expiresIn)
-    }
-
-    fun isLoggedIn(): Boolean = Settings.getString(ID_TOKEN).isNotEmpty()
-
-    suspend fun getRefreshToken(refreshToken: String?) {
-        val responseBody = httpClient
-            .post("https://securetoken.googleapis.com/v1/token?key=${""}") {
-                contentType(ContentType.Application.Json)
-                parameter("grant_type", "refresh_token")
-                parameter("refresh_token", refreshToken)
-            }
-        if (responseBody.status.value in 200..299) {
-            val response = json.decodeFromString<TokenResponse>(responseBody.bodyAsText())
-
-        } else {
-
-        }
-    }
-
+    fun isLoggedIn(): Boolean = if (Firebase.auth.currentUser == null) false else true
 }

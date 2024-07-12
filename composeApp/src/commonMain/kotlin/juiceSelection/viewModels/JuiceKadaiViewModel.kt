@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import data.Drink
 import data.SnackUiState
 import data.Status
-import dataStore.ID_TOKEN
-import dataStore.Settings
 import juiceSelection.repositories.JuiceKadaiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +15,6 @@ const val JUICE_LIST_COLLECTION = "Juices"
 
 class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository) : ViewModel() {
 
-    /**TODO
-    Handling nav with composable action directly for now
-    Replace this with proper navigation and remove this from viewModel*/
     val showJuiceSelectionComposable: StateFlow<Boolean> get() = _showJuiceSelectionComposable
     private val _showJuiceSelectionComposable: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
@@ -42,8 +37,7 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
     fun getDrinksList(skipCache: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
             val drinksResponse = juiceKadaiRepository.getDrinksList(
-                JUICE_LIST_COLLECTION,
-                skipCache = skipCache,
+                JUICE_LIST_COLLECTION
             )
             when (drinksResponse.status) {
                 Status.Success -> {

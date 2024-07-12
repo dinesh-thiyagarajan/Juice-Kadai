@@ -9,6 +9,12 @@ data class Drink(
     val drinkImage: String,
     var orderCount: Int = 0,
     val isAvailable: Boolean = false,
-    val nonAvailabilityReason: String? = null,
-    val description: String? = null
-)
+) {
+    constructor() : this(
+        drinkId = "",
+        drinkName = "",
+        drinkImage = "",
+        orderCount = 0,
+        isAvailable = false,
+    )
+}
