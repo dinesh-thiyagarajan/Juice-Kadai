@@ -42,20 +42,8 @@ kotlin {
             // Firebase Auth and Realtime DB Dependencies
             implementation(libs.gitlive.firebase.auth)
             implementation(libs.firebase.database)
+
             implementation(libs.kotlinx.coroutines.core)
-
-            // ktor for networking
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.cio)
-            implementation(libs.ktor.client.serialization)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.multiplatform.settings.no.arg)
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.client.auth)
-
             implementation(libs.androidx.lifecycle.viewmodel)
         }
         desktopMain.dependencies {
