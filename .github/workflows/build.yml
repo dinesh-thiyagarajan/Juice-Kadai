@@ -26,6 +26,9 @@ jobs:
           echo "API_KEY=${{ secrets.API_KEY }}" >> local.properties
           echo "PRINT_HTTP_LOGS=${{ secrets.PRINT_HTTP_LOGS }}" >> local.properties
 
+      - name: Create google-services directory
+        run: mkdir -p composeApp/googleServices
+
       - name: Create and Update google-services.json
         run: |
           echo "GOOGLE_SERVICES_JSON=${{ secrets.GOOGLE_SERVICES_JSON }}" > composeApp/googleServices/google-services.json
