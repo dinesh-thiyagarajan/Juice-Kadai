@@ -29,9 +29,9 @@ jobs:
       - name: Create google-services directory
         run: mkdir -p composeApp/googleServices
 
-      - name: Create and Update google-services.json
+      - name: Create and Update google-services.json for Debug Build
         run: |
-          echo "GOOGLE_SERVICES_JSON=${{ secrets.GOOGLE_SERVICES_JSON }}" > composeApp/googleServices/google-services.json
+          echo "GOOGLE_SERVICES_JSON=${{ secrets.GOOGLE_SERVICES_JSON }}" > composeApp/src/debug/google-services.json
 
       - name: Build Android App
         run: |
