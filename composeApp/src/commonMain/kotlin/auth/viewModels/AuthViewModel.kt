@@ -51,6 +51,12 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
             }
         }
     }
+
+    suspend fun updateAuthUiState(authUiState: AuthUiState) {
+        viewModelScope.launch {
+            _authUiState.value = authUiState
+        }
+    }
 }
 
 sealed interface AuthUiState {
