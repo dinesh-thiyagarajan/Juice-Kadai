@@ -27,7 +27,7 @@ jobs:
           echo "PRINT_HTTP_LOGS=${{ secrets.PRINT_HTTP_LOGS }}" >> local.properties
 
       - name: Create google-services directory
-        run: mkdir -p composeApp/googleServices
+        run: mkdir -p composeApp/src/debug
 
       - name: Create and Update google-services.json for Debug Build
         run: |
