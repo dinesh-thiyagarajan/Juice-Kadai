@@ -3,7 +3,7 @@ name: Build and Upload Artifacts
 on:
   push:
     branches:
-      - feature/auth
+      - main
 
 jobs:
   build-and-upload:
