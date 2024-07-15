@@ -35,7 +35,8 @@ fun main() = application {
         val options = FirebaseOptions(
             projectId = Config.PROJECT_ID,
             applicationId = Config.APP_ID,
-            apiKey = Config.API_KEY
+            apiKey = Config.API_KEY,
+            databaseUrl = Config.FIREBASE_DB_URL
         )
 
         Firebase.initialize(Application(), options)

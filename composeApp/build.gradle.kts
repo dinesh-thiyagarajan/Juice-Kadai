@@ -100,6 +100,9 @@ buildkonfig {
         val projectId: String =
             gradleLocalProperties(rootDir).getProperty("PROJECT_ID")
 
+        val firebaseDatabaseUrl: String =
+            gradleLocalProperties(rootDir).getProperty("FIREBASE_DB_URL")
+
         val appId: String =
             gradleLocalProperties(rootDir).getProperty("APP_ID")
 
@@ -110,6 +113,7 @@ buildkonfig {
             gradleLocalProperties(rootDir).getProperty("PRINT_HTTP_LOGS")
 
         buildConfigField(STRING, "PROJECT_ID", projectId)
+        buildConfigField(STRING, "FIREBASE_DB_URL", firebaseDatabaseUrl)
         buildConfigField(STRING, "APP_ID", appId)
         buildConfigField(STRING, "API_KEY", apiKey)
         buildConfigField(STRING, "PRINT_HTTP_LOGS", printHttpLogs)

@@ -21,5 +21,5 @@ class AuthRepository(private val firebaseAuth: FirebaseAuth = Firebase.auth) {
         }
     }
 
-    fun isLoggedIn(): Boolean = if (Firebase.auth.currentUser == null) false else true
+    fun isLoggedIn(): Boolean = Firebase.auth.currentUser != null
 }
