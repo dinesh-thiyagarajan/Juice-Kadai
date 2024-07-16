@@ -40,7 +40,7 @@ class JuiceKadaiRepository(private val firebaseDatabase: FirebaseDatabase = Fire
             // Not sure why Studio is treating this as an error
             // Read more about reified inline functions and generics
             firebaseDatabase.reference("/$collection").child(System.currentTimeMillis().toString())
-                .setValue(drinkData, {})
+                .setValue(drinkData) {}
         } catch (ex: Exception) {
             // handle http, socket exceptions
             // TODO remove this try catch and handle this via interceptors
