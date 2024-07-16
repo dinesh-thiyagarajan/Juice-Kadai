@@ -65,7 +65,7 @@ fun LoginComposable(authViewModel: AuthViewModel, coroutineScope: CoroutineScope
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(0.6f)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -80,7 +80,7 @@ fun LoginComposable(authViewModel: AuthViewModel, coroutineScope: CoroutineScope
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(0.6f)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
