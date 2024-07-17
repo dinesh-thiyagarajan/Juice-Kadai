@@ -8,6 +8,7 @@ data class Drink(
     val drinkName: String,
     val drinkImage: String,
     var orderCount: Int = 0,
+    @field:JvmField
     val isAvailable: Boolean = false,
 ) {
     constructor() : this(

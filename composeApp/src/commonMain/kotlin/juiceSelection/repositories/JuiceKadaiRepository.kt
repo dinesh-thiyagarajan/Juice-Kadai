@@ -17,11 +17,13 @@ class JuiceKadaiRepository(private val firebaseDatabase: FirebaseDatabase = Fire
     suspend fun getDrinksList(collection: String): Response<List<Drink>> {
         val drinksList: MutableList<Drink> = mutableListOf()
         try {
-            val ref = firebaseDatabase.reference("/$collection")
+            val ref = firebaseDatabase.reference("/$collection").orderByKey()
             val dataSnapshot = Tasks.await(ref.android.get())
             for (snapshot in dataSnapshot.children) {
                 val drink = snapshot.getValue(Drink::class.java)
-                drinksList.add(drink!!)
+                if (drink?.isAvailable == true) {
+                    drinksList.add(drink)
+                }
             }
             return Response(status = Status.Success, data = drinksList)
         } catch (ex: Exception) {
@@ -40,7 +42,7 @@ class JuiceKadaiRepository(private val firebaseDatabase: FirebaseDatabase = Fire
             // Not sure why Studio is treating this as an error
             // Read more about reified inline functions and generics
             firebaseDatabase.reference("/$collection").child(System.currentTimeMillis().toString())
-                .setValue(drinkData) {}
+                .setValue(drinkData) { encodeDefaults = true }
         } catch (ex: Exception) {
             // handle http, socket exceptions
             // TODO remove this try catch and handle this via interceptors
