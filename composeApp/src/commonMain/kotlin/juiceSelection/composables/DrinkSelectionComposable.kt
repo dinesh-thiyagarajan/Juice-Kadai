@@ -41,18 +41,21 @@ import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Drink
+import juiceSelection.viewModels.JuiceKadaiViewModel
+import juiceSelection.viewModels.JuicesUiState
 import juicekadai.composeapp.generated.resources.Res
 import juicekadai.composeapp.generated.resources.ic_404
 import juicekadai.composeapp.generated.resources.ic_apple
+import juicekadai.composeapp.generated.resources.ic_banana
 import juicekadai.composeapp.generated.resources.ic_coffee
 import juicekadai.composeapp.generated.resources.ic_fruit_bowl
+import juicekadai.composeapp.generated.resources.ic_generic_juice
+import juicekadai.composeapp.generated.resources.ic_lemon
 import juicekadai.composeapp.generated.resources.ic_orange
 import juicekadai.composeapp.generated.resources.ic_tea
 import juicekadai.composeapp.generated.resources.ic_watermelon
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import juiceSelection.viewModels.JuiceKadaiViewModel
-import juiceSelection.viewModels.JuicesUiState
 
 @Composable
 fun DrinkSelectionComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
@@ -142,15 +145,18 @@ fun GridListWithRoundedCardViews(
     }
 }
 
-private fun getResourceDrawable(imageId: String): DrawableResource {
+
+fun getResourceDrawable(imageId: String): DrawableResource {
     return when (imageId.toLowerCase(androidx.compose.ui.text.intl.Locale.current)) {
         "orange" -> Res.drawable.ic_orange
         "apple" -> Res.drawable.ic_apple
+        "banana" -> Res.drawable.ic_banana
+        "lemon" -> Res.drawable.ic_lemon
         "watermelon" -> Res.drawable.ic_watermelon
         "fruitbowl" -> Res.drawable.ic_fruit_bowl
         "tea" -> Res.drawable.ic_tea
         "coffee" -> Res.drawable.ic_coffee
-        else -> Res.drawable.ic_orange
+        else -> Res.drawable.ic_generic_juice
     }
 }
 
