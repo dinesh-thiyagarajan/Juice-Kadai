@@ -19,9 +19,6 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Delete Build Artifact
-        uses: joutvhu/delete-artifact@v2
-
       - name: Create and Update local.properties
         run: |
           echo "PROJECT_ID=${{ secrets.PROJECT_ID }}" > local.properties
