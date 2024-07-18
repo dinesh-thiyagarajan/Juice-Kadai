@@ -15,16 +15,20 @@
 - Install Android Studio (Latest Stable or Canary Build)
 - Add Kotlin Multi platform Plugin
 - Please read the documentation for compose multiplatform [setup](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-setup.html) and follow the process
-- Choose the type of build that you wanted, ex: desktop, android, ios
+- Choose the type of build that you wanted, ex: desktop or android
 - Create a new project in firebase and add your app package name and download the google-services.json and paste it under rootProjectDir/composeApp/google-services.json
-- Copy Project ID, App ID, API Key, FIREBASE_DB_URL from Firebase console and paste it under the respective keys given below
-- PROJECT_ID = "Your Project ID"
-  APP_ID = "Your Project App ID"
-  API_KEY = "Your Project Api Key"
-  PRINT_HTTP_LOGS = "true"
-  FIREBASE_DB_URL = "DB Url"
+- Copy the PROJECT_ID, APP_ID, API_KEY, FIREBASE_DB_URL from firebase console and paste it in local.properties in their respective fields and add PRINT_HTTP_LOGS = "true"
 - Run this command ./gradlew generateBuildKonfig in the terminal in the root directory of the project, inside composeApp/build/buildkonfig a BuildKonfig file will be generated, any keys and values referenced in the local.properties can be accessed from here
 - Run the app
+
+# Product Spec
+- The app requires a login to access the features.Please check with your admin and create a login for yourself.
+- Once Login is successful, you can start placing the orders and the admin will be able to see your orders
+
+# Product Instructions
+- Please check with your admin and create a user login for your mail ID
+- Login with the approved mail ID and start placing the orders
+- If you find any food items to be unavailable for the current moment, please check with the admin to mark that particular food item as un-available
 
 # Acknowledgements
 
