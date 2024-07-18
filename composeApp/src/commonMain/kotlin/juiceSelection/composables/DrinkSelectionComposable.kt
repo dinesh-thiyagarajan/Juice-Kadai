@@ -115,7 +115,7 @@ fun GridListWithRoundedCardViews(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Done,
-                        contentDescription = "Add"
+                        contentDescription = "Done"
                     )
                 }
             },

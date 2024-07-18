@@ -89,8 +89,8 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
                 _showJuiceSelectionComposable.value = false
                 return@launch
             }
-            juiceKadaiRepository.submitDrinksOrder(drinks = selectedDrinks)
             _showJuiceSelectionComposable.value = false
+            juiceKadaiRepository.submitDrinksOrder(drinks = selectedDrinks)
         }
     }
 
