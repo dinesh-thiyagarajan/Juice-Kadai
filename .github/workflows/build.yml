@@ -39,6 +39,9 @@ jobs:
           ./gradlew clean
           ./gradlew :composeApp:assembleDebug
 
+      - name: Delete Build Artifact
+        uses: joutvhu/delete-artifact@v2.0.1
+
       - name: Upload APK to GitHub Packages
         uses: actions/upload-artifact@v4
         with:
