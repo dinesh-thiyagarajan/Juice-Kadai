@@ -17,7 +17,7 @@ class JuiceKadaiRepository(private val firebaseDatabase: FirebaseDatabase = Fire
     suspend fun getDrinksList(collection: String): Response<List<Drink>> {
         val drinksList: MutableList<Drink> = mutableListOf()
         try {
-            val ref = firebaseDatabase.reference("/$collection").orderByKey()
+            val ref = firebaseDatabase.reference("/$collection")
             val dataSnapshot = Tasks.await(ref.android.get())
             for (snapshot in dataSnapshot.children) {
                 val drink = snapshot.getValue(Drink::class.java)
