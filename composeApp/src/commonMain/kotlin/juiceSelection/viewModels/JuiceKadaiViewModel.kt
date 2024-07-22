@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-const val JUICE_LIST_COLLECTION = "Juices"
-
 class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository) : ViewModel() {
 
     val showJuiceSelectionComposable: StateFlow<Boolean> get() = _showJuiceSelectionComposable
@@ -36,9 +34,7 @@ class JuiceKadaiViewModel(private val juiceKadaiRepository: JuiceKadaiRepository
 
     fun getDrinksList(skipCache: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
-            val drinksResponse = juiceKadaiRepository.getDrinksList(
-                JUICE_LIST_COLLECTION
-            )
+            val drinksResponse = juiceKadaiRepository.getDrinksList()
             when (drinksResponse.status) {
                 Status.Success -> {
                     drinksList = drinksResponse.data?.toMutableList() ?: mutableListOf()

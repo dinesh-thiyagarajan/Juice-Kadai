@@ -7,17 +7,22 @@ import data.Status
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.FirebaseDatabase
 import dev.gitlive.firebase.database.database
+import network.Config
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
-class JuiceKadaiRepository(private val firebaseDatabase: FirebaseDatabase = Firebase.database) {
+class JuiceKadaiRepository(
+    private val firebaseDatabase: FirebaseDatabase = Firebase.database,
+    private val juicesCollection: String = "${Config.BASE_LOCATION}/${Config.JUICES_COLLECTION}",
+    private val ordersCollection: String = "${Config.BASE_LOCATION}/${Config.ORDERS_COLLECTION}"
+) {
 
-    suspend fun getDrinksList(collection: String): Response<List<Drink>> {
+    suspend fun getDrinksList(): Response<List<Drink>> {
         val drinksList: MutableList<Drink> = mutableListOf()
         try {
-            val ref = firebaseDatabase.reference("/$collection")
+            val ref = firebaseDatabase.reference(juicesCollection)
             val dataSnapshot = Tasks.await(ref.android.get())
             for (snapshot in dataSnapshot.children) {
                 val drink = snapshot.getValue(Drink::class.java)
@@ -41,7 +46,8 @@ class JuiceKadaiRepository(private val firebaseDatabase: FirebaseDatabase = Fire
         try {
             // Not sure why Studio is treating this as an error
             // Read more about reified inline functions and generics
-            firebaseDatabase.reference("/$collection").child(System.currentTimeMillis().toString())
+            firebaseDatabase.reference("$ordersCollection/$collection")
+                .child(System.currentTimeMillis().toString())
                 .setValue(drinkData) { encodeDefaults = true }
         } catch (ex: Exception) {
             // handle http, socket exceptions
