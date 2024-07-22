@@ -38,7 +38,7 @@ class JuiceKadaiRepository(
 
     suspend fun submitDrinksOrder(drinks: List<Drink>) {
         val drinksMap = drinks.associateBy { it.drinkId }
-        val formatter = SimpleDateFormat("dd-MM-yy", Locale.getDefault())
+        val formatter = SimpleDateFormat(Config.DATE_FORMAT, Locale.getDefault())
         addDrinkOrderToFirebase(formatter.format(Date()), drinksMap)
     }
 

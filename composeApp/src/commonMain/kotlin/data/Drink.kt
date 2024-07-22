@@ -10,6 +10,7 @@ data class Drink(
     var orderCount: Int = 0,
     @field:JvmField
     val isAvailable: Boolean = false,
+    val orderTimeStamp: Long = System.currentTimeMillis()
 ) {
     constructor() : this(
         drinkId = "",
@@ -17,5 +18,6 @@ data class Drink(
         drinkImage = "",
         orderCount = 0,
         isAvailable = false,
+        orderTimeStamp = System.currentTimeMillis()
     )
 }

@@ -11,5 +11,5 @@ object Config {
     val BASE_LOCATION = BuildKonfig.BASE_LOCATION.trim('\"')
     const val ORDERS_COLLECTION = "Orders"
     const val JUICES_COLLECTION = "Juices"
-    const val USERS_COLLECTION = "Users"
+    const val DATE_FORMAT = "dd-MM-yy"
 }
