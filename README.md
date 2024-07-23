@@ -18,6 +18,7 @@
 - Choose the type of build that you wanted, ex: desktop or android
 - Create a new project in firebase and add your app package name and download the google-services.json and paste it under rootProjectDir/composeApp/google-services.json
 - Copy the PROJECT_ID, APP_ID, API_KEY, FIREBASE_DB_URL from firebase console and paste it in local.properties in their respective fields and add PRINT_HTTP_LOGS = "true"
+- Add your Root Directory name under this key BASE_LOCATION in local.properties
 - Run this command ./gradlew generateBuildKonfig in the terminal in the root directory of the project, inside composeApp/build/buildkonfig a BuildKonfig file will be generated, any keys and values referenced in the local.properties can be accessed from here
 - Run the app
 
