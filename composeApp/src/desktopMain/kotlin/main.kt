@@ -9,7 +9,7 @@ import dev.gitlive.firebase.FirebaseOptions
 import dev.gitlive.firebase.initialize
 import juiceSelection.repositories.JuiceKadaiRepository
 import juiceSelection.viewModels.JuiceKadaiViewModel
-import network.Config
+import common.Config
 
 fun main() = application {
     Window(

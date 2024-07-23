@@ -1,4 +1,4 @@
-package network
+package common
 
 import com.dineshworkspace.juicekadai.BuildKonfig
 

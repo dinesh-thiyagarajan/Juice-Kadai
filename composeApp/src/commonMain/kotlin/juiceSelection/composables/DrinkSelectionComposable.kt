@@ -37,9 +37,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import common.removeSpacesAndLowerCase
 import data.Drink
 import juiceSelection.viewModels.JuiceKadaiViewModel
 import juiceSelection.viewModels.JuicesUiState
@@ -133,8 +133,7 @@ fun GridListWithRoundedCardViews(
                         items(drinks.size) { index ->
                             RoundedCardView(
                                 drinkId = drinks[index].drinkId,
-                                title = drinks[index].drinkName,
-                                imageId = drinks[index].drinkImage,
+                                drinkName = drinks[index].drinkName,
                                 juiceKadaiViewModel = juiceKadaiViewModel
                             )
                         }
@@ -146,8 +145,8 @@ fun GridListWithRoundedCardViews(
 }
 
 
-fun getResourceDrawable(imageId: String): DrawableResource {
-    return when (imageId.toLowerCase(androidx.compose.ui.text.intl.Locale.current)) {
+fun getResourceDrawable(drinkName: String): DrawableResource {
+    return when (drinkName.removeSpacesAndLowerCase()) {
         "orange" -> Res.drawable.ic_orange
         "apple" -> Res.drawable.ic_apple
         "banana" -> Res.drawable.ic_banana
@@ -163,8 +162,7 @@ fun getResourceDrawable(imageId: String): DrawableResource {
 @Composable
 fun RoundedCardView(
     drinkId: String,
-    title: String,
-    imageId: String,
+    drinkName: String,
     juiceKadaiViewModel: JuiceKadaiViewModel
 ) {
     Card(
@@ -177,7 +175,7 @@ fun RoundedCardView(
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(vertical = 20.dp)) {
             Image(
-                painter = painterResource(getResourceDrawable(imageId)),
+                painter = painterResource(getResourceDrawable(drinkName)),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -190,7 +188,7 @@ fun RoundedCardView(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp)
             ) {
                 Text(
-                    text = title,
+                    text = drinkName,
                     style = MaterialTheme.typography.h4,
                     color = Color.Black,
                     fontSize = 18.sp

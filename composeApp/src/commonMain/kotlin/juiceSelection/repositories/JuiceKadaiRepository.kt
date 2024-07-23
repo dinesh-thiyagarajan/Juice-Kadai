@@ -7,7 +7,7 @@ import data.Status
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.FirebaseDatabase
 import dev.gitlive.firebase.database.database
-import network.Config
+import common.Config
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
