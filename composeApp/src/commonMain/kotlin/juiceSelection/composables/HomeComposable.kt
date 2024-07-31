@@ -20,11 +20,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarResult
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +38,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import common.theme.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -157,12 +160,17 @@ fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 OutlinedTextField(
                     value = userId,
-                    isError = userId.isEmpty(),
                     onValueChange = { userId = it },
                     label = { Text("Please enter your ID") },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
+                    ),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = primary_wave_blue,
+                        focusedLabelColor = primary_wave_blue,
+                        unfocusedBorderColor = primary_grey,
+                        unfocusedLabelColor = primary_black
                     ),
                     modifier = Modifier.fillMaxWidth(0.5f).focusable(enabled = true)
                 )
@@ -174,7 +182,12 @@ fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
                         juiceKadaiViewModel.showJuiceSelectionComposable(show = true)
                     },
                     enabled = userId.isNotEmpty(),
-                    modifier = Modifier.wrapContentSize()
+                    modifier = Modifier.wrapContentSize(),
+                    colors = ButtonDefaults.buttonColors(
+                        disabledBackgroundColor = primary_grey,
+                        backgroundColor = primary_wave_blue,
+                        contentColor = primary_white
+                    )
                 ) {
                     Text("Submit")
                 }
