@@ -23,6 +23,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarResult
 import androidx.compose.material.Text
@@ -38,11 +39,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import common.theme.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import common.theme.flamingo_pink
+import common.theme.primary_black
+import common.theme.primary_grey
+import common.theme.primary_wave_blue
+import common.theme.primary_white
+import juiceSelection.viewModels.JuiceKadaiViewModel
 import juicekadai.composeapp.generated.resources.Res
 import juicekadai.composeapp.generated.resources.ic_apple
 import juicekadai.composeapp.generated.resources.ic_coffee
@@ -54,7 +60,6 @@ import juicekadai.composeapp.generated.resources.ic_watermelon
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-import juiceSelection.viewModels.JuiceKadaiViewModel
 
 
 @Composable
@@ -128,7 +133,14 @@ fun HomeComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
 
     Scaffold(
         scaffoldState = scaffoldState,
-        snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
+        snackbarHost = {
+            SnackbarHost(hostState = it) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    actionColor = flamingo_pink
+                )
+            }
+        }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             var userId by remember { mutableStateOf("") }
