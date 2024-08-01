@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import common.removeSpacesAndLowerCase
+import common.theme.primary_wave_blue
 import data.Drink
 import juiceSelection.viewModels.JuiceKadaiViewModel
 import juiceSelection.viewModels.JuicesUiState
@@ -70,7 +71,7 @@ fun DrinkSelectionComposable(juiceKadaiViewModel: JuiceKadaiViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = primary_wave_blue)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text("Please wait while we fetch the juices list for you")
             }
